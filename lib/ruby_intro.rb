@@ -17,18 +17,17 @@ def max_2_sum arr
 end
 
 def sum_to_n? arr, n
-  #arr.each { |el| num = n-el, bool_arr << arr.include?(num)}
   if arr.empty? || (arr.length.equal? 1)
     return false
   else
-    # arr.each {|el1, el2| el1 + el2 == n }
-    
-    arr.each do |element|
-      if (arr - [element]).include?(n - element)
-        return true 
+    bol = false    
+    arr[1..-1].each do |element|
+      if (arr[0] + element == n)
+        bol = true
       end
-        return false
+      arr.delete(arr[0])
     end
+    return bol
   end
 end
 
@@ -58,43 +57,33 @@ end
 # Part 3
 
 class BookInStock
-  #before_create :check_isbn
-  # validate :isbn_c
-  # validate :price_c
   
  def initialize(isbn, price)
-   @isbn = isbn
-   @price = price
+   self.isbn = isbn
+   self.price = price
  end
  
- def isbn
-   @isbn
- end
+ attr_accessor :price, :isbn
  
  def isbn=(new_isbn)
-    @isbn = new_isbn
- end
- 
- def price
-   @price
+    if new_isbn.size == 0
+      raise ArgumentError
+    else
+      @isbn = new_isbn
+    end 
  end
  
  def price=(new_price)
-  @price = new_price
+  if new_price <= 0
+    raise ArgumentError
+  else
+    @price = new_price
+  end
  end
-  
-  private
-  
-    def isbn_c
-      if /[0-9]*[-| ][0-9]*[-| ][0-9]*[-| ][0-9]*[-| ][0-9]*/ =~ isbn
-        raise ArgumentError.new("Incorrect ISBN")
-      end
-    end
-    
-    # def price_c
-    #   if price <= 0
-    #     #raise ArgumentError.new("Price can't be 0 or less than 0")
-    #     raise ArgumentError
-    #   end
-    # end
+
+ def price_as_string
+  p_str = "$#{sprintf("%0.02f", self.price)
+}" 
+ end 
+
 end
